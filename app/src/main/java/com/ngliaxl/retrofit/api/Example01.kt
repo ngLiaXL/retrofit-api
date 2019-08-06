@@ -6,9 +6,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
-// https://api.apiopen.top/EmailSearch?number=1012002
+/***
+ *
+ *
+ *
+ *
+ *
+ */
 fun main() {
     val holder = Example01()
     val service = holder.retrofit.create(Example01.RetrofitService::class.java)
@@ -51,9 +58,17 @@ class Example01 {
         @GET("getAllUrl")
         fun get(): Call<ResponseBody>
 
+        /**
+         * https://api.apiopen.top/getSingleJoke?sid=123
+         */
         @GET("getSingleJoke")
         fun getJoke(@Query("sid") sid: String): Call<ResponseBody>
 
+        /**
+         * https://api.apiopen.top/getSingleJoke/123
+         */
+        @GET("getSingleJoke/{sid}")
+        fun getJoke2(@Path("sid") sid: String): Call<ResponseBody>
 
     }
 }
