@@ -12,16 +12,30 @@ import retrofit2.http.Query
 fun main() {
     val holder = Example01()
     val service = holder.retrofit.create(Example01.RetrofitService::class.java)
-    val call = service.get("1012002")
+    val call = service.get()
     call.enqueue(object : Callback<ResponseBody> {
         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
             t.printStackTrace()
         }
 
         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-            println(response.body()?.string())
+            println("NORMAL GET ${response.body()?.string()}")
         }
     })
+
+
+    val call2 = service.getJoke("28654780")
+    call2.enqueue(object : Callback<ResponseBody> {
+        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            t.printStackTrace()
+        }
+
+        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            println("NORMAL GET Query ${response.body()?.string()}")
+        }
+    })
+
+
 }
 
 class Example01 {
@@ -34,8 +48,11 @@ class Example01 {
 
     interface RetrofitService {
 
-        @GET("EmailSearch")
-        fun get(@Query("number") number: String): Call<ResponseBody>
+        @GET("getAllUrl")
+        fun get(): Call<ResponseBody>
+
+        @GET("getSingleJoke")
+        fun getJoke(@Query("sid") sid: String): Call<ResponseBody>
 
 
     }
